@@ -1241,22 +1241,32 @@ class Tintri(TintriBase):
         return self._get_all(resource_url='alert/filter', response_class=FilterScope)
 
     @api
-    def get_alert_notification_policy(self, alert_id=None):
+    def get_alert_notification_policy(self, policy_id=None, alert_id=None):
         """
-        Returns alert alert notifications, either all or filtered by alert_id
+        Returns alert alert notifications, either all or filtered by notification_id or alert_id
 
         **Supported on:** VMstore and TGC (all versions)
 
         Args:
+            policy_id (str): uuid of a notification
             alert_id (str): specific alert_id to filter by
 
         Returns:
-            AlertNotificationPolicy: notification policy object
+            list|AlertNotificationPolicy: notification policy object
         """
+        url = 'alert/notificationPolicy/'
+        if policy_id:
+            url += policy_id
+
+        query_params = {}
+        if alert_id:
+            query_params = {'alertId': alert_id}
+
         return self._get_all(
-            resource_url='alert/notificationPolicy',
-            query_params={'alertId': alert_id},
-            response_class=AlertNotificationPolicy
+            resource_url=url,
+            query_params=query_params,
+            response_class=AlertNotificationPolicy,
+
         )
 
     @api
