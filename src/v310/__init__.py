@@ -107,6 +107,12 @@ class AlertDownloadableReportFilter(TintriEntityV310):
     _url = 'alert/alertListDownloadable'
     typeId = 'com.tintri.api.rest.v310.dto.domain.beans.alerts.AlertDownloadableReportFilter'
 
+class AlertNotificationPolicy(TintriEntityV310):
+    typeId = 'com.tintri.api.rest.v310.dto.domain.NotificationPolicy'
+    _url = 'alert/notificationPolicy'
+    _property_map = {'uuid': Uuid, 'lastUpdatedTime': DateTime}
+    _is_paginated = True
+
 class Alert(TintriEntityV310):
     typeId = 'com.tintri.api.rest.v310.dto.domain.Alert'
     _url = 'alert'
@@ -1233,6 +1239,25 @@ class Tintri(TintriBase):
             FilterScope: filter scope
         """
         return self._get_all(resource_url='alert/filter', response_class=FilterScope)
+
+    @api
+    def get_alert_notification_policy(self, alert_id=None):
+        """
+        Returns alert alert notifications, either all or filtered by alert_id
+
+        **Supported on:** VMstore and TGC (all versions)
+
+        Args:
+            alert_id (str): specific alert_id to filter by
+
+        Returns:
+            AlertNotificationPolicy: notification policy object
+        """
+        return self._get_all(
+            resource_url='alert/notificationPolicy',
+            query_params={'alertId': alert_id},
+            response_class=AlertNotificationPolicy
+        )
 
     @api
     def update_alerts(self, objs, properties_to_update, request=None):
