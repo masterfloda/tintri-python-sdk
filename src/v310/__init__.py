@@ -1243,7 +1243,7 @@ class Tintri(TintriBase):
     @api
     def get_alert_notification_policy(self, policy_id=None, alert_id=None):
         """
-        Returns alert alert notifications, either all or filtered by notification_id or alert_id
+        Returns alert notifications. either all or filtered by notification_id or alert_id
 
         **Supported on:** VMstore and TGC (all versions)
 
@@ -1252,7 +1252,7 @@ class Tintri(TintriBase):
             alert_id (str): specific alert_id to filter by
 
         Returns:
-            list|AlertNotificationPolicy: notification policy object
+            list|AlertNotificationPolicy: notification policy object(s)
         """
         url = 'alert/notificationPolicy/'
         if policy_id:
@@ -1266,8 +1266,37 @@ class Tintri(TintriBase):
             resource_url=url,
             query_params=query_params,
             response_class=AlertNotificationPolicy,
-
         )
+
+    @api
+    def create_alert_notification_policy(self, policy):
+        """
+        Returns alert notifications. either all or filtered by notification_id or alert_id
+
+        **Supported on:** VMstore and TGC (all versions)
+
+        Args:
+            policy (AlertNotificationPolicy): Instance of AlertNotificationPolicy
+
+        Returns:
+            list|AlertNotificationPolicy: notification policy object(s)
+        """
+        self._create(policy, request_class=AlertNotificationPolicy)
+
+    @api
+    def update_alert_notification_policy(self, policy):
+        """
+        Returns alert notifications. either all or filtered by notification_id or alert_id
+
+        **Supported on:** VMstore and TGC (all versions)
+
+        Args:
+            policy (AlertNotificationPolicy): Instance of AlertNotificationPolicy
+
+        Returns:
+            list|AlertNotificationPolicy: notification policy object(s)
+        """
+        self._update(policy, request_class=AlertNotificationPolicy, path_params=[policy.uuid.uuid, ])
 
     @api
     def update_alerts(self, objs, properties_to_update, request=None):
