@@ -1271,7 +1271,7 @@ class Tintri(TintriBase):
     @api
     def create_alert_notification_policy(self, policy):
         """
-        Returns alert notifications. either all or filtered by notification_id or alert_id
+        Creates a new notificationPolicy
 
         **Supported on:** VMstore and TGC (all versions)
 
@@ -1286,7 +1286,7 @@ class Tintri(TintriBase):
     @api
     def update_alert_notification_policy(self, policy):
         """
-        Returns alert notifications. either all or filtered by notification_id or alert_id
+        Updates an existing notificationPolicy
 
         **Supported on:** VMstore and TGC (all versions)
 
@@ -1297,6 +1297,28 @@ class Tintri(TintriBase):
             list|AlertNotificationPolicy: notification policy object(s)
         """
         self._update(policy, request_class=AlertNotificationPolicy, path_params=[policy.uuid.uuid, ])
+
+    @api
+    def delete_alert_notification_policy(self, policy=None, uuid=None):
+        """
+        Deletes a notificationPolicy
+
+        **Supported on:** VMstore and TGC (all versions)
+
+        Args:
+            policy (AlertNotificationPolicy): Instance of AlertNotificationPolicy to delete
+            uuid (str): UUID of the AlertNotificationPolicy to delete
+
+        Returns:
+            list|AlertNotificationPolicy: notification policy object(s)
+        """
+        if not uuid:
+            try:
+                uuid = policy.uuid.uuid
+            except AttributeError:
+                raise TintriError("delete_alert_notification_policy reqyires either policy or uuid parameter")
+
+        self._delete(request_class=AlertNotificationPolicy, path_params=[uuid, ])
 
     @api
     def update_alerts(self, objs, properties_to_update, request=None):
